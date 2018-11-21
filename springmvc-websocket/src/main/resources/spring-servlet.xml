@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:websocket="http://www.springframework.org/schema/websocket"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ 	http://www.springframework.org/schema/mvc
+ 	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+ 	http://www.springframework.org/schema/context
+ 	http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+	<context:component-scan base-package="com.wang.springmvc.controller" />
+
+	<mvc:annotation-driven/>
+
+	<!-- 这个标签会导致websocket请求直接跑到tomcat上，而不会走SockJsHttpRequestHandler -->
+	<mvc:default-servlet-handler/>
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+   <!--  解决方法1 -->
+   <websocket:message-broker application-destination-prefix="/app">
+		<websocket:transport message-size="131072" send-timeout="1000" send-buffer-size="8192"/>
+		<websocket:stomp-endpoint path="/stat/websocket" allowed-origins="*">
+			<websocket:sockjs/>
+		</websocket:stomp-endpoint>
+		<websocket:simple-broker prefix="/topic,/queue"/>
+	</websocket:message-broker>
+
+
+</beans>
