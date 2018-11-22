@@ -34,6 +34,13 @@ scheduleAtFixedRate(new Runnable() {
 },10, 5,TimeUnit.SECONDS);
 ```
 
+通过Redis给websocket生产消息，然后再推送给前端
+```
+  通过Redis生产消息：
+  1. 通过访问 http://localhost:8080/publish?data=hello redis
+  2. 通过命令 127.0.0.1:6379> publish SpringSubscribe.TOPIC xxx
+```
+
 遗留问题
 ```
 1. 去掉SocketHandler上面的@Component注解，直接在WebSocketConfig中通过@Bean注解加载，
