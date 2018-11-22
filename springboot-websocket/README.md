@@ -13,6 +13,7 @@
 在IDEA中直接右键运行stomp.html页面 => 点击“连接”按钮
 ```
 /client/html/ws.html 测试点对点交互发送消息
+/client/html/annon.html 注解方式点对点交互发送消息，通过@ServerEndpoint注解实现
 /client/html/stomp.html 测试类似消息服务的广播发送消息
 ```
 
