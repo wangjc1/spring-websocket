@@ -1,10 +1,12 @@
 package com.wang.springboot.controller;
 
 import com.wang.springboot.commons.RedisClientUtils;
+import com.wang.springboot.handler.SocketHandler;
+import com.wang.springboot.message.SpringSubscribe;
 import com.wang.springboot.model.RequestMessage;
 import com.wang.springboot.model.ResponseMessage;
-import com.wang.springboot.message.SpringSubscribe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -12,6 +14,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
 
 import javax.annotation.PostConstruct;
 import java.text.DateFormat;
@@ -29,6 +33,9 @@ public class WsController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private SocketHandler wsHandler;
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
@@ -58,7 +65,7 @@ public class WsController {
 
     /**
      * sub/pub模型：生产消息
-     * 1. 通过访问 http://localhost:8092/publish?data=hello redis
+     * 1. 通过访问 http://localhost:8080/publish?data=hello redis
      * 2. 通过命令 127.0.0.1:6379> publish SpringSubscribe.TOPIC "hello redis"
      *
      * SubListener监听消息到达
@@ -77,6 +84,14 @@ public class WsController {
     public ResponseMessage say(RequestMessage message) {
         System.out.println(message.getName());
         return new ResponseMessage("welcome," + message.getName() + " !");
+    }
+
+    @ResponseBody
+    @RequestMapping("/ws/send")
+    public String wsSend(){
+        String m = "当前时间:"+new Date();
+        wsHandler.sendMessagesToUsers(new TextMessage(m));
+        return "ok";
     }
 
     /**

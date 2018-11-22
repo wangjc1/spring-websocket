@@ -16,7 +16,7 @@ public class WebSocketStompConfig extends AbstractWebSocketMessageBrokerConfigur
     @Override
     public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
         //后端socket监听地址，前端请求连接
-        stompEndpointRegistry.addEndpoint("/simple")
+        stompEndpointRegistry.addEndpoint("/ws/stomp")
                 .setAllowedOrigins("*") //解决跨域问题
                 .withSockJS();
     }

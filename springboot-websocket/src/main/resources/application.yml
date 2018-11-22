@@ -9,7 +9,7 @@ spring:
     active: dev
 
 server:
-  port: 8092
+  port: 8080
 
 ---
 
@@ -21,7 +21,7 @@ spring:
 
   logging:
   level:
-    ROOT: INFO
+    ROOT: DEBUG
     com:
       xncoding: DEBUG
   file: D:/logs/app.log

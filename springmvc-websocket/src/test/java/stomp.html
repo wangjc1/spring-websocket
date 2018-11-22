@@ -30,7 +30,7 @@
     }
 
     function connect() {
-        var socket = new SockJS('http://localhost:8092/simple');
+        var socket = new SockJS('http://localhost:8080/ws/stomp');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             setConnected(true);

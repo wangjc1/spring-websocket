@@ -15,10 +15,8 @@
     </div>
 
     <div id="conversationDiv">
-        <label>输入你的名字</label><input type="text" id="name"/>
-        <button id="sendName" onclick="sendName();">发送</button>
+        <label>后台通知消息</label>
         <p id="response"></p>
-        <p id="callback"></p>
     </div>
 </div>
 <script type="text/javascript">
@@ -29,21 +27,16 @@
         document.getElementById("disconnect").disabled = !connected;
         document.getElementById("conversationDiv").style.visibility = connected ? 'visible' : 'hidden';
         $("#response").html();
-        $("#callback").html();
     }
 
     function connect() {
-        var socket = new SockJS('http://localhost:8092/simple');
+        var socket = new SockJS('http://localhost:8080/ws/stomp');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             setConnected(true);
             console.log('Connected:' + frame);
-            stompClient.subscribe('/topic/say', function (response) {
-                showResponse(JSON.parse(response.body).responseMessage);
-            });
-            // 另外再注册一下定时任务接受
-            stompClient.subscribe('/topic/callback', function (response) {
-                showCallback(response.body);
+            stompClient.subscribe('/topic/notice', function (response) {
+                showResponse(response.body);
             });
         });
     }
@@ -56,18 +49,10 @@
         console.log('Disconnected');
     }
 
-    function sendName() {
-        var name = $('#name').val();
-        console.log('name:' + name);
-        stompClient.send("/welcome", {}, JSON.stringify({'name': name}));
-    }
-
     function showResponse(message) {
         $("#response").html(message);
     }
-    function showCallback(message) {
-        $("#callback").html(message);
-    }
+
 </script>
 </body>
 </html>

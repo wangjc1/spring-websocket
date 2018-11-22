@@ -13,12 +13,23 @@
                         http://www.springframework.org/schema/websocket
                         http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
-    <websocket:message-broker application-destination-prefix="/app">
+    <!-- websocket -->
+    <bean name="wsHandler" class="com.wang.springmvc.handler.SocketHandler"/>
+    <websocket:handlers>
+        <!-- 这里可以配置多个Handler，映射地址不能一样 -->
+        <websocket:mapping path="/ws/point" handler="wsHandler"/>
+        <websocket:handshake-interceptors>
+            <bean class="com.wang.springmvc.interceptor.HandshakeInterceptor"/>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>
+
+    <!-- websocket子协议STOMP -->
+    <websocket:message-broker>
         <websocket:transport message-size="131072" send-timeout="1000" send-buffer-size="8192"/>
-        <websocket:stomp-endpoint path="/stat/websocket" allowed-origins="*">
+        <websocket:stomp-endpoint path="/ws/stomp" allowed-origins="*">
             <websocket:sockjs/>
         </websocket:stomp-endpoint>
-        <websocket:simple-broker prefix="/topic,/queue"/>
+        <websocket:simple-broker prefix="/topic"/>
     </websocket:message-broker>
 
 </beans>

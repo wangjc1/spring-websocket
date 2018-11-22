@@ -1,11 +1,13 @@
 package com.wang.springmvc.controller;
 
+import com.wang.springmvc.handler.SocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.TextMessage;
 
 import java.util.Date;
 import java.util.concurrent.Executors;
@@ -17,7 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class HelloWorldController {
 
 	@Autowired
-	private SimpMessagingTemplate messagingTemplate;
+	private SimpMessagingTemplate stompMessage;
+
+	@Autowired
+	@Qualifier("wsHandler")
+	private SocketHandler wsHandler;
 
 	//@PostConstruct
 	public void sendSyncMessage(){
@@ -31,22 +37,24 @@ public class HelloWorldController {
 			public void run() {
 				String m = "当前时间:"+new Date();
 				System.out.println(String.format("Send message %s to notice.html",m));
-				messagingTemplate.convertAndSend("/topic/notice",m);
+				stompMessage.convertAndSend("/topic/notice",m);
 			}
 		},10, 5, TimeUnit.SECONDS);
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String sayHello(ModelMap model) {
-		model.addAttribute("greeting", "Hello World from Spring 4 MVC");
-		return "welcome";
+	@ResponseBody
+	@RequestMapping("/stomp/send")
+	public String stompSend(){
+		String m = "当前时间:"+new Date();
+		stompMessage.convertAndSend("/topic/notice",m);
+		return "ok";
 	}
 
-
-	@RequestMapping(value="/helloagain", method = RequestMethod.GET)
-	public String sayHelloAgain(ModelMap model) {
-		model.addAttribute("greeting", "Hello World Again, from Spring 4 MVC");
-		return "welcome";
+	@ResponseBody
+	@RequestMapping("/ws/send")
+	public String wsSend(){
+		String m = "当前时间:"+new Date();
+		wsHandler.sendMessagesToUsers(new TextMessage(m));
+		return "ok";
 	}
-
 }

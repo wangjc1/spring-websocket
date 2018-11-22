@@ -3,6 +3,7 @@ package com.wang.springmvc.controller;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -34,6 +35,7 @@ public class SockJsHttpRequestController implements InitializingBean {
 	private SockJsService sockJsService;
 
 	@Autowired
+	@Qualifier("subProtocolWebSocketHandler")
 	private WebSocketHandler webSocketHandler;
 
 	@Override

@@ -1,7 +1,7 @@
 
-## 简介(基于注解方式配置)
+## 简介(基于XML方式配置)
 
-在SpringBoot中有两种实现WebSocket实时通信的方式：
+在SpringMVC中有两种实现WebSocket实时通信的方式：
 
 1. 另外一个是使用Socket.IO协议实现。
 2. 一个是使用WebSocket的一个子协议stomp
@@ -34,13 +34,12 @@ scheduleAtFixedRate(new Runnable() {
 },10, 5,TimeUnit.SECONDS);
 ```
 
-遗留问题
+基于XML配置中问题：
 ```
-1. 去掉SocketHandler上面的@Component注解，直接在WebSocketConfig中通过@Bean注解加载，
-   结果发现在WsController中引用不到，因为容器启动时是先加载Controller的，而这时WebSocketConfig还没加载
-   具体原因还不知道。
-   参考： https://blog.csdn.net/Sadlay/article/details/82952163?utm_source=blogxgwz8
-
+ 1. Shiro拦截的问题，解决办法就是配置白名单。
+ 2. SpringMVC缺省ServletHandler标签导致的问题
+ 3. web容器不支持异步请求
+ 解决方案请请看：<简书>
 ```
 
 ## 许可证********

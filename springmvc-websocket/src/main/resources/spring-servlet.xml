@@ -27,13 +27,6 @@
 	</bean>
 
    <!--  解决方法1 -->
-   <websocket:message-broker application-destination-prefix="/app">
-		<websocket:transport message-size="131072" send-timeout="1000" send-buffer-size="8192"/>
-		<websocket:stomp-endpoint path="/stat/websocket" allowed-origins="*">
-			<websocket:sockjs/>
-		</websocket:stomp-endpoint>
-		<websocket:simple-broker prefix="/topic,/queue"/>
-	</websocket:message-broker>
-
+   <import resource="spring-websocket.xml"/>
 
 </beans>
