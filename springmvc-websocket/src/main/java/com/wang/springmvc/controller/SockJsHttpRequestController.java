@@ -43,7 +43,7 @@ public class SockJsHttpRequestController implements InitializingBean {
 		this.webSocketHandler = new ExceptionWebSocketHandlerDecorator(new LoggingWebSocketHandlerDecorator(webSocketHandler));
 	}
 
-	@RequestMapping(value="/stat/websocket/**/{path}")
+	@RequestMapping(value="/ws/stomp/**/{path}")
 	public void handleRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse,@PathVariable String path)
 			throws ServletException, IOException {
 		//websocket默认是使用SimpleUrlHandlerMapping映射的，第一次是先请求info

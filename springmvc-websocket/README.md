@@ -12,7 +12,7 @@
 ### WebSocket js客户端测试
 在IDEA中直接右键运行stomp.html页面 => 点击“连接”按钮
 ```
-/client/html/ws.html 测试点对点交互发送消息
+/client/html/ws.html 测试点对点交互发送消息(有问题，连不上服务)
 /client/html/stomp.html 测试类似消息服务的广播发送消息
 ```
 
@@ -39,6 +39,7 @@ scheduleAtFixedRate(new Runnable() {
  1. Shiro拦截的问题，解决办法就是配置白名单。
  2. SpringMVC缺省ServletHandler标签导致的问题
  3. web容器不支持异步请求
+ 4. 点对点推送消息测试有问题
  解决方案请请看：<简书>
 ```
 
