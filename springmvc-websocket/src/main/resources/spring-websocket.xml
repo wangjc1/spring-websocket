@@ -15,7 +15,7 @@
 
     <!-- websocket -->
     <bean name="wsHandler" class="com.wang.springmvc.handler.SocketHandler"/>
-    <websocket:handlers>
+    <websocket:handlers allowed-origins="*">
         <!-- 这里可以配置多个Handler，映射地址不能一样 -->
         <websocket:mapping path="/ws/point" handler="wsHandler"/>
         <websocket:handshake-interceptors>
