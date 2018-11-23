@@ -8,7 +8,6 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.HandlerMapping;
@@ -28,7 +27,7 @@ import java.io.IOException;
  *  一种是把websocket配置添加到dispatch-servlet.xml配置文件中
  *  另一种就是把SockJsHttpRequestHandler改造成一个Controller，这样就不会被缺省的Servlet(Tomcat的servlet)给冲掉了
  */
-@Controller
+//@Controller
 public class SockJsHttpRequestController implements InitializingBean {
 
 	@Autowired

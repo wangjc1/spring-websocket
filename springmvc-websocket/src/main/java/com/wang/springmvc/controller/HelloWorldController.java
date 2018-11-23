@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -25,7 +26,7 @@ public class HelloWorldController {
 	@Qualifier("wsHandler")
 	private SocketHandler wsHandler;
 
-	//@PostConstruct
+	@PostConstruct
 	public void sendSyncMessage(){
 		Executors.newScheduledThreadPool(1,new ThreadFactory(){
 			@Override
